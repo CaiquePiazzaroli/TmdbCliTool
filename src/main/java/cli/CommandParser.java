@@ -1,11 +1,10 @@
 package cli;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CommandParser {
 
-    private List<String> validOptions = List.of("playing", "popular", "top", "upcoming");
+    private final List<String> validTypes = List.of("playing", "popular", "top", "upcoming");
 
     public String getType(String[] args) {
         for(int i = 0; i < args.length; i++) {
@@ -13,11 +12,12 @@ public class CommandParser {
                 return args[i + 1];
             }
         }
+        System.out.println("Invalid arguments. Searching for popular movies.");
         return "popular";
     }
 
     private boolean isAValidType(String type) {
-        return validOptions.contains(type);
+        return validTypes.contains(type);
     }
 
 }
