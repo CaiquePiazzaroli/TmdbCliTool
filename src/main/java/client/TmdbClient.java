@@ -6,16 +6,16 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.Optional;
 
 public class TmdbClient {
 
-    public String fetchMovies(String type) {
+    public Optional<String> fetchMovies(String type) {
 
         String typeFormated = getTypeFormated(type);
 
         if(typeFormated == null) {
-            System.out.println("The type " + type + " is not valid");
-            return null;
+            return Optional.empty();
         }
 
         try {
@@ -31,17 +31,15 @@ public class TmdbClient {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
             if(response.statusCode() == 200) {
-                return response.body();
+                return Optional.of(response.body());
             } else if(response.statusCode() == 404) {
-                System.out.println("Error 404");
-                return null;
+                return Optional.empty();
             } else {
                 System.out.println("Api error. HTTP code: " + response.statusCode());
-                return null;
+                return Optional.empty();
             }
         } catch (Exception e) {
-            System.out.println(e);
-            return null;
+            return Optional.empty();
         }
     }
 

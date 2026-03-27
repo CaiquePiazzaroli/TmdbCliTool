@@ -11,9 +11,14 @@ public class MovieService {
     private final TmdbClient client = new TmdbClient();
 
     public void getMovie(String type) {
-        String moviesString = client.fetchMovies(type);
-        TMDBJsonParser parser = new TMDBJsonParser();
-        List<Movie> moviesList = parser.parse(moviesString);
-        moviesList.forEach(movie -> System.out.println(movie.getTitle()));
+        client.fetchMovies(type).ifPresentOrElse(
+                moviesString -> {
+                    List<Movie> moviesList = new TMDBJsonParser().parse(moviesString);
+                    moviesList.forEach(m -> System.out.println(m.getTitle()));
+                },
+                () -> {
+                    System.out.println("Erro: Não foi possível buscar os filmes para o tipo: " + type);
+                }
+        );
     }
 }

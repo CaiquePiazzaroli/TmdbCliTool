@@ -8,12 +8,11 @@ import java.util.List;
 
 
 public class TMDBJsonParser {
-
     public List<Movie> parse(String json) {
         Gson gson = new Gson();
+
         MovieResponse movies = gson.fromJson(json, MovieResponse.class);
+
         return movies.getResults();
     }
-
-
 }
