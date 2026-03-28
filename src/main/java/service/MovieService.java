@@ -17,7 +17,7 @@ public class MovieService {
                     moviesList.forEach(m -> System.out.println(m.getTitle()));
                 },
                 () -> {
-                    System.out.println("Erro: Não foi possível buscar os filmes para o tipo: " + type);
+                    System.out.println("Error: Type is not a valid type: " + type);
                 }
         );
     }

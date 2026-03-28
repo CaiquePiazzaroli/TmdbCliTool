@@ -13,6 +13,8 @@ public class TmdbClient {
     public Optional<String> fetchMovies(String type) {
 
         String typeFormated = getTypeFormated(type);
+        final String URL = String.join("/", AppConfig.BASE_URL, typeFormated);
+        final String API_KEY = AppConfig.API_KEY;
 
         if(typeFormated == null) {
             return Optional.empty();
@@ -22,10 +24,10 @@ public class TmdbClient {
             HttpClient client = HttpClient.newHttpClient();
 
             HttpRequest  request = HttpRequest.newBuilder()
-                    .uri(URI.create(AppConfig.BASE_URL + typeFormated))
+                    .uri(URI.create(URL))
                     .GET()
                     .header("accept", "application/json")
-                    .header("Authorization", AppConfig.API_KEY)
+                    .header("Authorization", API_KEY)
                     .build();
 
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
